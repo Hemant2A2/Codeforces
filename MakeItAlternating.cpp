@@ -32,6 +32,8 @@ ll binmul(ll a, ll b)
 
 ll fac(ll n)
 {
+    if(n == 0)
+        return 1;
     ll ans = n;
     while(--n)
     {
@@ -42,9 +44,8 @@ ll fac(ll n)
 
 int main()
 {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
+    //freopen("input.txt" , "r" , stdin); freopen("output.txt", "w" , stdout);
+    ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
     int t;
     cin >> t;
     while(t--)
@@ -52,32 +53,20 @@ int main()
         string s;
         cin >> s;
         ll rep=1;
+        char curr = s[0];
         v diff;
-        for(size_t i = 0; i < s.size(); i++)
+        for(size_t i = 1; i < s.size(); i++)
         {
-            if(i== s.size()-1 && rep == 1)
-            {
-                diff.pb(rep);
-                continue;
-            }
-            if(i != s.size()-1)
-            {
-                if(s[i]==s[i+1])
-                    rep++;
-                else
-                {
-                    diff.pb(rep);
-                    rep=1;
-                }
-            }
+            if(s[i] == curr)
+                rep++;
             else
             {
                 diff.pb(rep);
-                continue;
+                rep = 1;
+                curr = s[i];
             }
-                
-            
         }
+        diff.pb(rep);
         ll oper= s.size() - diff.size();
         ll sum =1;
         //ll cnt =0;
