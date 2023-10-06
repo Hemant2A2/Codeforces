@@ -26,16 +26,6 @@ typedef vector<int> v;
 typedef unordered_set<int> us;
 typedef unordered_map<int,int> um;
 
-ll gcd(ll a , ll b)
-{
-    while(b)
-    {
-        a %= b;
-        swap(a,b);
-    }
-    return a;
-}
-
 int main()
 {
 #ifndef ONLINE_JUDGE
@@ -47,31 +37,24 @@ int main()
     cin >> test;
     while(test--)
     {
-        ll n,x,y;
-        cin >> n >> x >> y;
-        if(x != y)
+    	int n;
+    	cin >> n;
+        int arr[n+1];
+        arr[0] = -1;
+        for(size_t i = 0; i < n; i++)
         {
-            ll p = n/x;
-            ll ne = n/y;
-            ll lcm = (x*y)/gcd(x,y);
-            ll sub = n/lcm;
-            p -= sub;
-            ne -= sub;
-            ll sump = n*p - (p * (p-1))/2;
-            ll sumn = (ne * (ne + 1))/2;
-            // for(ll i = 0; i < p; i++)
-            // {
-            //     sump += n-i;
-            // }
-            // for(ll i = 1; i <= ne; i++)
-            // {
-            //     sumn += i;
-            // }
-            cout << sump - sumn << nline;
+         	int p;
+         	cin >> p;
+         	arr[p] = i;
         }
-        else
-            cout << 0 << nline;
+        int oper = 0;
+        for(size_t i = 1; i < n; i++)
+        {
+         	if(arr[i] - arr[i+1] >= 1)
+         		oper++;
+        }
 
+        cout << oper << nline;
     }
     return 0;
 }

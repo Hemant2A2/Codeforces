@@ -1,52 +1,83 @@
-//https://codeforces.com/problemset/problem/158/B?csrf_token=0008f7440b00a6d2f9c699a4aff8114c
-
-
 #include <iostream>
 #include <algorithm>
+#include <cstring>
+#include <math.h>
+#include <vector>
+#include <utility>
+#include <stdio.h>
+#include <string>
+#include <tuple>
+#include <map>
+#include <unordered_map>
+#include <set>
+#include <unordered_set>
+#include <stack>
+#include <queue>
+#include <deque>
 using namespace std;
+#define pb push_back
+#define ff first
+#define ss second
+#define nline "\n"
+#define all(x) (x).begin(),(x).end()
+typedef long long ll;
+typedef unsigned long long ull;
+typedef vector<int> v;
+typedef unordered_set<int> us;
+typedef unordered_map<int,int> um;
 
 int main()
 {
-    int n;
-    int x,y,z,w;
-    int sum = 0;
-    x = y = z = w = 0;
-    cin >> n;
-    while(n--)
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r" , stdin);
+    freopen("output.txt", "w" , stdout);
+#endif
+    ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+    int test = 1;
+    //cin >> test;
+    while(test--)
     {
-        int g;
-        cin >> g;
-        if(g == 1){x++;}
-        if( g == 2){y++;}
-        if( g == 3){z++;}
-        if(g == 4){w++;}
-    }
-    sum = w + min(x,z) + y/2;
-    y = y%2;
-    if( x > z)
-    {
-        if(y)
+        int n;
+        cin >> n;
+        int a=0,b=0,c=0,d=0;
+        for(size_t i = 0; i < n; i++)
         {
-            if( x - z >= 2)
-            {
-                sum += (x-z-2)/4 + (x-z-2)%4 + 1;
-            }
+            int s;
+            cin >> s;
+            if(s==1)
+                a++;
+            else if(s==2)
+                b++;
+            else if(s == 3)
+                c++;
             else
-            {
-                sum += y ;
-            }
+                d++;
         }
+        if(c == a)
+            cout << d + c + b/2 + b%2;
+        else if(c > a)
+            cout << d + a + b/2 + b%2 + c - a;
         else
         {
-            sum += (x-z)/4 + (x-z)%4;
+            if(b%2)
+            {
+                if(a -c <= 2)
+                    cout << d + c + b/2 + 1;
+                else
+                {   if((a-c-2)%4)
+                        cout << d + c + b/2 + (a-c-2)/4 + 2;
+                    else
+                        cout << d + c + b/2 + (a-c-2)/4 + 1;
+                }
+            }
+            else
+            {   if((a-c)%4)
+                    cout << d + c + b/2 + (a-c)/4 + 1;
+                else
+                    cout << d + c + b/2 + (a-c)/4;
+            }
         }
-    }
-    else
-    {
-        sum += y + z - x;
-    }
 
-    cout << sum << endl;
-
+    }
     return 0;
 }
