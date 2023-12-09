@@ -22,7 +22,7 @@ using namespace std;
 #define all(x) (x).begin(),(x).end()
 typedef long long ll;
 typedef unsigned long long ull;
-typedef vector<ll> v;
+typedef vector<int> v;
 typedef unordered_set<int> us;
 typedef unordered_map<int,int> um;
 
@@ -37,39 +37,47 @@ int main()
     cin >> test;
     while(test--)
     {
-        ll n,x;
-        cin >> n >> x;
-        v heights;
-        for(ll i = 0; i < n; i++)
+        int n,s;
+        cin >> n >> s;
+        v bin;
+        for(size_t i = 0; i < n; i++)
         {
-            ll h;
-            cin >> h;
-            heights.pb(h);
+         	int a;
+         	cin >> a;
+         	bin.pb(a);
         }
-        sort(all(heights));
-        v fill;
-        fill.pb(0);
-        ll temp = 0;
-        for(ll i = 1; i < n; i++)
+        int total = 0;
+        deque<int>idx;
+        for(size_t i = 0; i < n; i++)
         {
-            temp = (heights[i] - heights[i-1])*i;
-            fill.pb(fill.back() + temp);
+         	if(bin[i] == 1)
+         	{
+         		total++;
+         		idx.pb(i);
+         	}
         }
-        bool found = false;
-        ll idx;
-        for(ll i = 0; i < n; i++)
-        {
-            if(fill[i] > x)
-            {
-                idx = i-1;
-                found = true;
-                break;
-            }
-        }
-        if(found)
-            cout << (x-fill[idx])/(idx+1) + heights[idx] << nline;
+        
+        if(s > total)
+        	cout << -1 << nline;
         else
-            cout << (x-fill.back())/n + heights.back() << nline;
+        {
+        	int i = -1,j = n;
+        	while(s != total)
+        	{
+        		if(abs(idx.front()- i) <= abs(idx.back()- j))
+        		{
+        			i = idx.front();
+        			idx.pop_front();
+        		}
+        		else
+        		{
+        			j = idx.back();
+        			idx.pop_back();
+        		}
+        		total--;
+        	}
+        	cout << i+1 + n-j << nline;
+        }
     }
     return 0;
 }

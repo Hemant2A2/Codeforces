@@ -25,45 +25,48 @@ typedef unsigned long long ull;
 typedef vector<int> v;
 typedef unordered_set<int> us;
 typedef unordered_map<int,int> um;
-ll n,c,sum,sum_sq;
-ll f(ll m)
-{
-    return 4*n*m*m + 4*sum*m + sum_sq - c;
-}
 
 int main()
 {
 #ifndef ONLINE_JUDGE
-    freopen("input_cf.txt", "r" , stdin);
-    freopen("output_cf.txt", "w" , stdout);
+    freopen("input.txt", "r" , stdin);
+    freopen("output.txt", "w" , stdout);
 #endif
     ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
     int test = 1;
     cin >> test;
     while(test--)
     {
-        cin >> n >> c;
-        sum = sum_sq = 0;
-        for(ll i = 0; i < n; i++)
+        string a,b;
+        cin >> a >> b;
+        int n = a.size();
+        bool ok = true;
+        int f = -1, l = -1;
+        for(size_t i = 1; i < n-1; i++)
         {
-            ll a;
-            cin >> a;
-            sum += a;
-            sum_sq += a*a;
+         	if(a[i] == '0' && b[i] == '0')
+         		f = i;
+         	else if(a[i] == '1' && b[i] == '1')
+	         	l = i;
         }
-        ll root = sqrt(n);
-        ll l = 1,h = 1e9/root,m;
-        while(l <= h)
-        {
-            m = (l+h)/2;
-            if(f(m) == 0)
-                break;
-            else if(f(m) > 0)
-                h = m-1;
-            else
-                l = m+1;
-        }
-        cout << m << nline;
+        if(f == -1 && l != 1)
+	        ok = false;
+	    else if( l == -1 && f != n-2)
+	    	ok = false;
+	    else if(f < l)
+	    {
+	    	if(f != l-1)
+	    		ok = false;
+	    }
+	    else
+	    {
+	    	if(f != n-2 || l != 1)
+	    		ok = false;
+	    }
+        if(ok)
+        	cout << "YES" << nline;
+        else
+        	cout << "NO" << nline;
     }
     return 0;
 }

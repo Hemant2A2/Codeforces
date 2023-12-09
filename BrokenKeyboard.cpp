@@ -22,7 +22,7 @@ using namespace std;
 #define all(x) (x).begin(),(x).end()
 typedef long long ll;
 typedef unsigned long long ull;
-typedef vector<ll> v;
+typedef vector<int> v;
 typedef unordered_set<int> us;
 typedef unordered_map<int,int> um;
 
@@ -37,39 +37,33 @@ int main()
     cin >> test;
     while(test--)
     {
-        ll n,x;
-        cin >> n >> x;
-        v heights;
-        for(ll i = 0; i < n; i++)
+        string s;
+        cin >> s;
+        set<char>correct;
+        char curr = s[0];
+        int streak = 1;
+        for(size_t i = 1; i < s.size(); i++)
         {
-            ll h;
-            cin >> h;
-            heights.pb(h);
+         	if(s[i] == curr)
+         		streak++;
+         	else
+         	{
+         		if(streak%2)
+         			correct.insert(curr);
+         		streak = 1;
+         		curr = s[i];
+         	}
         }
-        sort(all(heights));
-        v fill;
-        fill.pb(0);
-        ll temp = 0;
-        for(ll i = 1; i < n; i++)
-        {
-            temp = (heights[i] - heights[i-1])*i;
-            fill.pb(fill.back() + temp);
-        }
-        bool found = false;
-        ll idx;
-        for(ll i = 0; i < n; i++)
-        {
-            if(fill[i] > x)
-            {
-                idx = i-1;
-                found = true;
-                break;
-            }
-        }
-        if(found)
-            cout << (x-fill[idx])/(idx+1) + heights[idx] << nline;
-        else
-            cout << (x-fill.back())/n + heights.back() << nline;
+        size_t i = s.size() -1;
+        if(streak%2)
+ 			correct.insert(s[i]);
+ 		string res = "";
+ 		for(auto it = correct.begin(); it != correct.end(); it++)
+ 		{
+ 			res += *it;
+ 		}
+ 		cout << res << nline;
+
     }
     return 0;
 }

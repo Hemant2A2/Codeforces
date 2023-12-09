@@ -37,39 +37,35 @@ int main()
     cin >> test;
     while(test--)
     {
-        ll n,x;
-        cin >> n >> x;
-        v heights;
-        for(ll i = 0; i < n; i++)
+        int n,k;
+        cin >> n >> k;
+        v nums,copy;
+        for(size_t i = 0; i < n; i++)
         {
-            ll h;
-            cin >> h;
-            heights.pb(h);
+         	ll a;
+         	cin >> a;
+         	copy.pb(a);
+         	nums.pb(a);
         }
-        sort(all(heights));
-        v fill;
-        fill.pb(0);
-        ll temp = 0;
-        for(ll i = 1; i < n; i++)
-        {
-            temp = (heights[i] - heights[i-1])*i;
-            fill.pb(fill.back() + temp);
-        }
-        bool found = false;
-        ll idx;
-        for(ll i = 0; i < n; i++)
-        {
-            if(fill[i] > x)
-            {
-                idx = i-1;
-                found = true;
-                break;
-            }
-        }
-        if(found)
-            cout << (x-fill[idx])/(idx+1) + heights[idx] << nline;
+        if(k >=2 )
+        	cout << "YES" << nline;
         else
-            cout << (x-fill.back())/n + heights.back() << nline;
+        {
+        	sort(all(nums));
+        	bool ok = true;
+        	for(size_t i = 0; i < n; i++)
+        	{
+        	 	if(nums[i] != copy[i])
+        	 	{
+        	 		ok = false;
+        	 		break;
+        	 	}
+        	}
+        	if(ok)
+        		cout << "YES" << nline;
+        	else
+        		cout << "NO" << nline;
+        }
     }
     return 0;
 }

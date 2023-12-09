@@ -22,7 +22,7 @@ using namespace std;
 #define all(x) (x).begin(),(x).end()
 typedef long long ll;
 typedef unsigned long long ull;
-typedef vector<ll> v;
+typedef vector<int> v;
 typedef unordered_set<int> us;
 typedef unordered_map<int,int> um;
 
@@ -37,39 +37,31 @@ int main()
     cin >> test;
     while(test--)
     {
-        ll n,x;
-        cin >> n >> x;
-        v heights;
-        for(ll i = 0; i < n; i++)
+        ll n,p,l,t;
+        cin >> n >> p >> l >> t;
+        ll task = n/7;
+        ll days = 0;
+        if(n%7)
+        	task++;
+        ll val = (l + 2*t)*(task/2);
+        if( val < p)
         {
-            ll h;
-            cin >> h;
-            heights.pb(h);
+        	days = task/2 + (task%2);
+        	if(val + (l+t)*(task%2) < p)
+        	{
+        		ll left = p - val - (l+t)*(task%2);
+        		days += left/l;
+        		if(left%l)
+        			days++;
+        	}
         }
-        sort(all(heights));
-        v fill;
-        fill.pb(0);
-        ll temp = 0;
-        for(ll i = 1; i < n; i++)
-        {
-            temp = (heights[i] - heights[i-1])*i;
-            fill.pb(fill.back() + temp);
-        }
-        bool found = false;
-        ll idx;
-        for(ll i = 0; i < n; i++)
-        {
-            if(fill[i] > x)
-            {
-                idx = i-1;
-                found = true;
-                break;
-            }
-        }
-        if(found)
-            cout << (x-fill[idx])/(idx+1) + heights[idx] << nline;
         else
-            cout << (x-fill.back())/n + heights.back() << nline;
+        {
+        	days = p/(l + 2*t);
+        	if(p%(l+2*t))
+        		days++;
+        }
+        cout << n - days << nline;
     }
     return 0;
 }

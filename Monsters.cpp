@@ -23,6 +23,7 @@ using namespace std;
 typedef long long ll;
 typedef unsigned long long ull;
 typedef vector<ll> v;
+typedef vector<pair<ll,ll> > vp;
 typedef unordered_set<int> us;
 typedef unordered_map<int,int> um;
 
@@ -37,39 +38,51 @@ int main()
     cin >> test;
     while(test--)
     {
-        ll n,x;
-        cin >> n >> x;
-        v heights;
+        ll n , k;
+        cin >> n >> k;
+        //v health;
+        v order;
+        bool pre = false;
         for(ll i = 0; i < n; i++)
         {
-            ll h;
-            cin >> h;
-            heights.pb(h);
+         	ll a;
+         	cin >> a;
+         	//health.pb(a);
+         	if(a%k)
+         		order.pb(a%k);
+         	else
+         	{
+         		order.pb(k);
+         		pre = true;
+         	}
         }
-        sort(all(heights));
-        v fill;
-        fill.pb(0);
-        ll temp = 0;
-        for(ll i = 1; i < n; i++)
-        {
-            temp = (heights[i] - heights[i-1])*i;
-            fill.pb(fill.back() + temp);
-        }
-        bool found = false;
-        ll idx;
+        pair<ll,ll> p;
+        vp idx;
         for(ll i = 0; i < n; i++)
         {
-            if(fill[i] > x)
-            {
-                idx = i-1;
-                found = true;
-                break;
-            }
+         	p.ff = order[i];
+         	p.ss = i+1;
+         	idx.pb(p);
         }
-        if(found)
-            cout << (x-fill[idx])/(idx+1) + heights[idx] << nline;
-        else
-            cout << (x-fill.back())/n + heights.back() << nline;
+        sort(all(idx));
+        ll i = n-1;
+        if(pre)
+        {
+	        for(i; i >= 0; i--)
+	        {
+	        	if(idx[i].ff == k)
+	        		continue;
+	        	else
+	        		break;
+	        }
+	        for(ll z = i+1; z < n; z++)
+	        	cout << idx[z].ss << " ";
+	    }
+        for(ll  j = 0; j <= i ; j++)
+        {
+         	cout << idx[j].ss << " ";
+        }
+	    cout << nline;
     }
     return 0;
 }

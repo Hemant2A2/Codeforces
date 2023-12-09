@@ -22,7 +22,7 @@ using namespace std;
 #define all(x) (x).begin(),(x).end()
 typedef long long ll;
 typedef unsigned long long ull;
-typedef vector<ll> v;
+typedef vector<int> v;
 typedef unordered_set<int> us;
 typedef unordered_map<int,int> um;
 
@@ -37,39 +37,38 @@ int main()
     cin >> test;
     while(test--)
     {
-        ll n,x;
-        cin >> n >> x;
-        v heights;
-        for(ll i = 0; i < n; i++)
-        {
-            ll h;
-            cin >> h;
-            heights.pb(h);
-        }
-        sort(all(heights));
-        v fill;
-        fill.pb(0);
-        ll temp = 0;
-        for(ll i = 1; i < n; i++)
-        {
-            temp = (heights[i] - heights[i-1])*i;
-            fill.pb(fill.back() + temp);
-        }
-        bool found = false;
-        ll idx;
-        for(ll i = 0; i < n; i++)
-        {
-            if(fill[i] > x)
-            {
-                idx = i-1;
-                found = true;
-                break;
-            }
-        }
-        if(found)
-            cout << (x-fill[idx])/(idx+1) + heights[idx] << nline;
+        int n;
+        cin >> n;
+        string s;
+        cin >> s;
+        bool ok = false;
+        int cnt1 = 0, cnt0 = 0;
+        if(s[0] == '1')
+        	cnt1++;
         else
-            cout << (x-fill.back())/n + heights.back() << nline;
+        	cnt0++;
+        for(size_t i = 1; i < n; i++)
+        {
+         	if(s[i] == '1' && s[i-1] == '0')
+         		ok = true;
+         	else if(s[i] == '0' && s[i-1] == '1')
+         		ok = true;
+         	else if(s[i] == '0' && s[i-1] == '0')
+         		ok = true;
+         	if(s[i] == '1')
+	        	cnt1++;
+	        else
+	        	cnt0++;
+        }
+        if(ok)
+        	cout << "YES" << nline;
+        else
+        {
+        	if(cnt0 > cnt1)
+        		cout << "YES" << nline;
+        	else
+        		cout << "NO" << nline;
+        }
     }
     return 0;
 }

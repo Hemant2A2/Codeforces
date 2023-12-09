@@ -16,10 +16,12 @@
 #include <deque>
 using namespace std;
 #define pb push_back
+#define pf push_front
 #define ff first
 #define ss second
 #define nline "\n"
 #define all(x) (x).begin(),(x).end()
+#define rall(x) (x).rbegin(),(x).rend()
 typedef long long ll;
 typedef unsigned long long ull;
 typedef vector<ll> v;
@@ -37,39 +39,48 @@ int main()
     cin >> test;
     while(test--)
     {
-        ll n,x;
-        cin >> n >> x;
+        int n;
+        cin >> n;
         v heights;
-        for(ll i = 0; i < n; i++)
+        for(size_t i = 0; i < n; i++)
         {
-            ll h;
-            cin >> h;
-            heights.pb(h);
+         	ll h;
+         	cin >> h;
+         	heights.pb(h);
         }
         sort(all(heights));
-        v fill;
-        fill.pb(0);
-        ll temp = 0;
-        for(ll i = 1; i < n; i++)
-        {
-            temp = (heights[i] - heights[i-1])*i;
-            fill.pb(fill.back() + temp);
-        }
-        bool found = false;
-        ll idx;
-        for(ll i = 0; i < n; i++)
-        {
-            if(fill[i] > x)
-            {
-                idx = i-1;
-                found = true;
-                break;
-            }
-        }
-        if(found)
-            cout << (x-fill[idx])/(idx+1) + heights[idx] << nline;
+        if(n==2)
+        	cout << heights[0] << " " << heights[1] << nline;
         else
-            cout << (x-fill.back())/n + heights.back() << nline;
+        {
+	        int idx = 1;
+	        int diff = heights[1]- heights[0];
+	        for(size_t i = 1; i < n; i++)
+	        {
+	         	if(heights[i] == heights[i-1])
+	         	{
+	         		idx = i;
+	         		break;
+	         	}
+	         	else
+	         		if(diff > heights[i] - heights[i-1])
+	         		{
+	         			diff = heights[i] - heights[i-1];
+	         			idx = i;
+	         		}
+	        }
+	    	for(size_t i = idx; i < n; i++)
+	    	{
+	    	 	cout << heights[i] << " ";
+	    	}
+	    	for(size_t i = 0; i < idx; i++)
+	    	{
+	    	 	cout << heights[i] << " ";
+	    	}
+	    	cout << nline;
+	    }
+		    
+        
     }
     return 0;
 }

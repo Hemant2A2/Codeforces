@@ -22,7 +22,7 @@ using namespace std;
 #define all(x) (x).begin(),(x).end()
 typedef long long ll;
 typedef unsigned long long ull;
-typedef vector<ll> v;
+typedef vector<int> v;
 typedef unordered_set<int> us;
 typedef unordered_map<int,int> um;
 
@@ -34,42 +34,26 @@ int main()
 #endif
     ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
     int test = 1;
-    cin >> test;
+    //cin >> test;
     while(test--)
     {
-        ll n,x;
-        cin >> n >> x;
-        v heights;
-        for(ll i = 0; i < n; i++)
+        int n;
+        cin >> n;
+        ll sum = 0,max = 0;
+        for(size_t i = 0; i < n; i++)
         {
-            ll h;
-            cin >> h;
-            heights.pb(h);
-        }
-        sort(all(heights));
-        v fill;
-        fill.pb(0);
-        ll temp = 0;
-        for(ll i = 1; i < n; i++)
-        {
-            temp = (heights[i] - heights[i-1])*i;
-            fill.pb(fill.back() + temp);
-        }
-        bool found = false;
-        ll idx;
-        for(ll i = 0; i < n; i++)
-        {
-            if(fill[i] > x)
-            {
-                idx = i-1;
-                found = true;
-                break;
-            }
-        }
-        if(found)
-            cout << (x-fill[idx])/(idx+1) + heights[idx] << nline;
+         	ll a;
+         	cin >> a;
+         	sum += a;
+         	if(max < a)
+         		max = a;
+        }	
+        ll _sum = sum - max;
+        if(max <= 2*_sum)
+        	cout << sum/3 << nline;
         else
-            cout << (x-fill.back())/n + heights.back() << nline;
+        	cout << _sum << nline;
+
     }
     return 0;
 }

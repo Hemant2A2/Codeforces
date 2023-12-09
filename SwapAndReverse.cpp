@@ -22,7 +22,7 @@ using namespace std;
 #define all(x) (x).begin(),(x).end()
 typedef long long ll;
 typedef unsigned long long ull;
-typedef vector<ll> v;
+typedef vector<int> v;
 typedef unordered_set<int> us;
 typedef unordered_map<int,int> um;
 
@@ -37,39 +37,36 @@ int main()
     cin >> test;
     while(test--)
     {
-        ll n,x;
-        cin >> n >> x;
-        v heights;
-        for(ll i = 0; i < n; i++)
+        int n,k;
+        cin >> n >> k;
+        string s;
+        cin >> s;
+        if(k% 2==0)
         {
-            ll h;
-            cin >> h;
-            heights.pb(h);
+        	sort(all(s));
+        	cout << s << nline;
         }
-        sort(all(heights));
-        v fill;
-        fill.pb(0);
-        ll temp = 0;
-        for(ll i = 1; i < n; i++)
-        {
-            temp = (heights[i] - heights[i-1])*i;
-            fill.pb(fill.back() + temp);
-        }
-        bool found = false;
-        ll idx;
-        for(ll i = 0; i < n; i++)
-        {
-            if(fill[i] > x)
-            {
-                idx = i-1;
-                found = true;
-                break;
-            }
-        }
-        if(found)
-            cout << (x-fill[idx])/(idx+1) + heights[idx] << nline;
         else
-            cout << (x-fill.back())/n + heights.back() << nline;
+        {
+        	string a="",b="";
+        	for(size_t i = 0; i < n; i++)
+        	{
+        	 	if(i%2)
+        	 		b += s[i];
+        	 	else
+        	 		a += s[i];
+        	}
+        	sort(all(a));
+        	sort(all(b));
+        	for(size_t i = 0; i < n; i++)
+        	{
+        	 	if(i%2)
+        	 		s[i] = b[i/2];
+        	 	else
+        	 		s[i] = a[i/2];
+        	}
+        	cout << s << nline;
+        }
     }
     return 0;
 }

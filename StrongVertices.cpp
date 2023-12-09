@@ -20,9 +20,11 @@ using namespace std;
 #define ss second
 #define nline "\n"
 #define all(x) (x).begin(),(x).end()
+#define rall(x) (x).rbegin(),(x).rend()
 typedef long long ll;
 typedef unsigned long long ull;
 typedef vector<ll> v;
+typedef vector<pair<ll,ll> > vp;
 typedef unordered_set<int> us;
 typedef unordered_map<int,int> um;
 
@@ -37,39 +39,37 @@ int main()
     cin >> test;
     while(test--)
     {
-        ll n,x;
-        cin >> n >> x;
-        v heights;
-        for(ll i = 0; i < n; i++)
+        int n;
+        cin >> n;
+        ll a[n],b[n],diff[n];
+        for(size_t i = 0; i < n; i++)
+        	cin >> a[i];
+        for(size_t i = 0; i < n; i++)
+        	cin >> b[i];
+        for(size_t i = 0; i < n; i++)
+        	diff[i] = a[i] - b[i];
+        vp order;
+        pair<ll,ll> p;
+        for(size_t i = 0; i < n; i++)
         {
-            ll h;
-            cin >> h;
-            heights.pb(h);
+         	p.ff = diff[i];
+         	p.ss = i+1;
+         	order.pb(p);
         }
-        sort(all(heights));
-        v fill;
-        fill.pb(0);
-        ll temp = 0;
-        for(ll i = 1; i < n; i++)
+        sort(rall(order));
+        v ans;
+        ll max = order[0].ff;
+        for(size_t i = 0; i < n; i++)
         {
-            temp = (heights[i] - heights[i-1])*i;
-            fill.pb(fill.back() + temp);
+         	if(max == order[i].ff)
+         		ans.pb(order[i].ss);
         }
-        bool found = false;
-        ll idx;
-        for(ll i = 0; i < n; i++)
-        {
-            if(fill[i] > x)
-            {
-                idx = i-1;
-                found = true;
-                break;
-            }
-        }
-        if(found)
-            cout << (x-fill[idx])/(idx+1) + heights[idx] << nline;
-        else
-            cout << (x-fill.back())/n + heights.back() << nline;
+        sort(all(ans));
+        cout << ans.size() << nline;
+        for(size_t i = 0; i < ans.size(); i++)
+        	cout << ans[i] << " ";
+        cout << nline;
+
     }
     return 0;
 }

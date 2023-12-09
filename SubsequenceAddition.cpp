@@ -37,39 +37,50 @@ int main()
     cin >> test;
     while(test--)
     {
-        ll n,x;
-        cin >> n >> x;
-        v heights;
+        ll n;
+        cin >> n;
+        v nums;
+        for(size_t i = 0; i < n; i++)
+        {
+         	ll c;
+         	cin >> c;
+         	nums.pb(c);
+        }
+        sort(all(nums));
+        v pre_sum;
+        ll sum = 0;
+        pre_sum.pb(1);
         for(ll i = 0; i < n; i++)
         {
-            ll h;
-            cin >> h;
-            heights.pb(h);
+         	sum += nums[i];
+         	pre_sum.pb(sum);
         }
-        sort(all(heights));
-        v fill;
-        fill.pb(0);
-        ll temp = 0;
-        for(ll i = 1; i < n; i++)
+        bool ok = true;
+        if(n < 3)
         {
-            temp = (heights[i] - heights[i-1])*i;
-            fill.pb(fill.back() + temp);
+        	for(ll i = 0; i < n; i++)
+        	{
+        	 	if(nums[i] != 1)
+        	 	{
+        	 		ok = false;
+        	 		break;
+        	 	}
+        	}
         }
-        bool found = false;
-        ll idx;
         for(ll i = 0; i < n; i++)
         {
-            if(fill[i] > x)
-            {
-                idx = i-1;
-                found = true;
-                break;
-            }
+         	if(pre_sum[i] < nums[i])
+         	{
+         		ok = false;
+         		break;
+         	}
         }
-        if(found)
-            cout << (x-fill[idx])/(idx+1) + heights[idx] << nline;
+        if(ok)
+        {
+        	cout << "yes" << nline;
+        }
         else
-            cout << (x-fill.back())/n + heights.back() << nline;
+        	cout << "no" << nline;
     }
     return 0;
 }

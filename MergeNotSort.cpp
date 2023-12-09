@@ -22,7 +22,7 @@ using namespace std;
 #define all(x) (x).begin(),(x).end()
 typedef long long ll;
 typedef unsigned long long ull;
-typedef vector<ll> v;
+typedef vector<int> v;
 typedef unordered_set<int> us;
 typedef unordered_map<int,int> um;
 
@@ -37,39 +37,46 @@ int main()
     cin >> test;
     while(test--)
     {
-        ll n,x;
-        cin >> n >> x;
-        v heights;
-        for(ll i = 0; i < n; i++)
+        int n;
+        cin >> n;
+        int nums[2*n]
+        int max1= 0,min2 = 2*n +1,max2 = 0;
+        for(size_t i = 0; i < n*2; i++)
         {
-            ll h;
-            cin >> h;
-            heights.pb(h);
+        	cin >> nums[i];
+        	if(i < n)
+        	{
+        		if(max1 < nums[i])
+        			max1 = nums[i];
+        	}
+        	else
+        	{
+        		if(min2 > nums[i])
+        			min2 = nums[i];
+        		if(max2 < nums[i])
+        			max2 = nums[i];
+
+        	}
         }
-        sort(all(heights));
-        v fill;
-        fill.pb(0);
-        ll temp = 0;
-        for(ll i = 1; i < n; i++)
+        if(max1 < min2)
         {
-            temp = (heights[i] - heights[i-1])*i;
-            fill.pb(fill.back() + temp);
+        	for(size_t i = 0; i < n; i++)
+        		cout << nums[i] << " ";
+        	cout << nline;
+        	for(size_t i = n; i < n*2; i++)
+        		cout << nums[i] << " ";
+        	cout << nline;
         }
-        bool found = false;
-        ll idx;
-        for(ll i = 0; i < n; i++)
-        {
-            if(fill[i] > x)
-            {
-                idx = i-1;
-                found = true;
-                break;
-            }
-        }
-        if(found)
-            cout << (x-fill[idx])/(idx+1) + heights[idx] << nline;
+        else if(max1 > max2)
+        	cout << -1 << nline;
         else
-            cout << (x-fill.back())/n + heights.back() << nline;
+        {
+        	int pairs = 0;
+        	for(size_t i = 0; i < n*2-1; i++)
+        	{
+        		if(nums[i+1] < nums[i])
+        	}
+        }
     }
     return 0;
 }

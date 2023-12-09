@@ -37,39 +37,33 @@ int main()
     cin >> test;
     while(test--)
     {
-        ll n,x;
-        cin >> n >> x;
-        v heights;
+        ll n;
+        cin >> n;
+        v nums;
         for(ll i = 0; i < n; i++)
         {
-            ll h;
-            cin >> h;
-            heights.pb(h);
+         	ll a;
+         	cin >> a;
+         	nums.pb(a-i);
         }
-        sort(all(heights));
-        v fill;
-        fill.pb(0);
-        ll temp = 0;
+        sort(all(nums));
+        ll curr = nums[0];
+        ll streak = 1;
+        ll total = 0;
         for(ll i = 1; i < n; i++)
         {
-            temp = (heights[i] - heights[i-1])*i;
-            fill.pb(fill.back() + temp);
-        }
-        bool found = false;
-        ll idx;
-        for(ll i = 0; i < n; i++)
-        {
-            if(fill[i] > x)
+            if(curr == nums[i])
+                streak++;
+            else
             {
-                idx = i-1;
-                found = true;
-                break;
+                total += (streak*(streak-1))/2;
+                streak = 1;
+                curr = nums[i];
             }
         }
-        if(found)
-            cout << (x-fill[idx])/(idx+1) + heights[idx] << nline;
-        else
-            cout << (x-fill.back())/n + heights.back() << nline;
+        total += (streak*(streak-1))/2;
+        cout << total <<nline;
+        
     }
     return 0;
 }

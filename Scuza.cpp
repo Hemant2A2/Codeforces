@@ -37,39 +37,47 @@ int main()
     cin >> test;
     while(test--)
     {
-        ll n,x;
-        cin >> n >> x;
+        int n,q;
+        cin >> n >> q;
         v heights;
-        for(ll i = 0; i < n; i++)
+        v jump;
+        ll sum = 0;
+        ll jp;
+        for(size_t i = 0; i < n; i++)
         {
-            ll h;
-            cin >> h;
-            heights.pb(h);
+         	ll h;
+         	cin >> h;
+            if(i == 0)
+                jp = h;
+            else
+                jp = max(jp,h);
+            jump.pb(jp);
+         	sum += h;
+         	heights.pb(sum);
         }
-        sort(all(heights));
-        v fill;
-        fill.pb(0);
-        ll temp = 0;
-        for(ll i = 1; i < n; i++)
+        for(size_t i = 0; i < q; i++)
         {
-            temp = (heights[i] - heights[i-1])*i;
-            fill.pb(fill.back() + temp);
-        }
-        bool found = false;
-        ll idx;
-        for(ll i = 0; i < n; i++)
-        {
-            if(fill[i] > x)
+         	ll q;
+         	cin >> q;
+            if(q < jump[0])
+                cout << 0 << " ";
+            else if( q > jump.back())
+                cout << heights.back() << " ";
+            else
             {
-                idx = i-1;
-                found = true;
-                break;
+               int l=-1, h = n;
+               while(l+1<h)
+               {
+                    int m = (l+h)/2;
+                    if(jump[m] <= q)
+                        l = m;
+                    else
+                        h = m;
+               }
+               cout << heights[l] << " ";
             }
         }
-        if(found)
-            cout << (x-fill[idx])/(idx+1) + heights[idx] << nline;
-        else
-            cout << (x-fill.back())/n + heights.back() << nline;
+        cout << nline;
     }
     return 0;
 }

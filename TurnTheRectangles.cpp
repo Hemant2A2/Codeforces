@@ -22,7 +22,7 @@ using namespace std;
 #define all(x) (x).begin(),(x).end()
 typedef long long ll;
 typedef unsigned long long ull;
-typedef vector<ll> v;
+typedef vector<pair<ll,ll> > vp;
 typedef unordered_set<int> us;
 typedef unordered_map<int,int> um;
 
@@ -34,42 +34,43 @@ int main()
 #endif
     ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
     int test = 1;
-    cin >> test;
+    //cin >> test;
     while(test--)
     {
-        ll n,x;
-        cin >> n >> x;
-        v heights;
-        for(ll i = 0; i < n; i++)
+        int n;
+        cin >> n;
+        pair<ll,ll> p;
+        vp rec;
+        for(size_t i = 0; i < n; i++)
         {
-            ll h;
-            cin >> h;
-            heights.pb(h);
+         	ll a,b;
+         	cin >> a >> b;
+         	p.ff = a;
+         	p.ss = b;
+         	rec.pb(p);
         }
-        sort(all(heights));
-        v fill;
-        fill.pb(0);
-        ll temp = 0;
-        for(ll i = 1; i < n; i++)
+        reverse(all(rec));
+        ll min = rec[0].ff < rec[0].ss ? rec[0].ff : rec[0].ss;
+        bool ok = true;
+        for(size_t i = 1; i < n; i++)
         {
-            temp = (heights[i] - heights[i-1])*i;
-            fill.pb(fill.back() + temp);
+         	if(rec[i].ff >= min && rec[i].ss >= min)
+         		min = rec[i].ff < rec[i].ss ? rec[i].ff : rec[i].ss;
+         	else if(rec[i].ff >= min)
+         		min = rec[i].ff;
+         	else if(rec[i].ss >= min)
+         		min = rec[i].ss;
+         	else
+         	{
+         		ok = false;
+         		break;
+         	}
         }
-        bool found = false;
-        ll idx;
-        for(ll i = 0; i < n; i++)
-        {
-            if(fill[i] > x)
-            {
-                idx = i-1;
-                found = true;
-                break;
-            }
-        }
-        if(found)
-            cout << (x-fill[idx])/(idx+1) + heights[idx] << nline;
+        if(ok)
+        	cout << "YES";
         else
-            cout << (x-fill.back())/n + heights.back() << nline;
+        	cout << "NO";
+        
     }
     return 0;
 }

@@ -26,6 +26,17 @@ typedef vector<ll> v;
 typedef unordered_set<int> us;
 typedef unordered_map<int,int> um;
 
+ll power(ll n)
+{
+	ll p = 0;
+	while(n%2==0)
+	{
+		n = n/2;
+		p++;
+	}
+	return p;
+}
+
 int main()
 {
 #ifndef ONLINE_JUDGE
@@ -37,39 +48,48 @@ int main()
     cin >> test;
     while(test--)
     {
-        ll n,x;
-        cin >> n >> x;
-        v heights;
+        ll n,q;
+        cin >> n >> q;
+        v nums;
+        map<ll,ll> hash;
+        v exp;
+        v ind;
         for(ll i = 0; i < n; i++)
         {
-            ll h;
-            cin >> h;
-            heights.pb(h);
+         	ll a;
+         	cin >> a;
+         	nums.pb(a);
+         	hash.insert(make_pair(power(a),i));
         }
-        sort(all(heights));
-        v fill;
-        fill.pb(0);
-        ll temp = 0;
-        for(ll i = 1; i < n; i++)
+        for(auto it = hash.begin(); it != hash.end() ; it++)
         {
-            temp = (heights[i] - heights[i-1])*i;
-            fill.pb(fill.back() + temp);
+        	exp.pb(it->ff);
+        	ind.pb(it->ss);
         }
-        bool found = false;
-        ll idx;
+        ll sz = exp.size();
+        for(ll i = 0; i < q; i++)
+        {
+         	ll qe;
+         	cin >> qe;
+         	ll l = -1, h = sz;
+         	while(l+1 < h)
+         	{
+         		ll m  = (l+h)/2;
+         		if(exp[m] < qe)
+         			l = m;
+         		else
+         			h = m;
+         	}
+         	for(ll j = h; j < sz; j++)
+         	{
+         	 	nums[ind[j]] += (ll)pow(2,qe-1);
+         	}
+        }
         for(ll i = 0; i < n; i++)
         {
-            if(fill[i] > x)
-            {
-                idx = i-1;
-                found = true;
-                break;
-            }
+         	cout << nums[i] << " ";
         }
-        if(found)
-            cout << (x-fill[idx])/(idx+1) + heights[idx] << nline;
-        else
-            cout << (x-fill.back())/n + heights.back() << nline;
+        cout << nline;
     }
     return 0;
 }

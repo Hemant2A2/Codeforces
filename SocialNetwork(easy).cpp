@@ -34,42 +34,43 @@ int main()
 #endif
     ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
     int test = 1;
-    cin >> test;
+    //cin >> test;
     while(test--)
     {
-        ll n,x;
-        cin >> n >> x;
-        v heights;
-        for(ll i = 0; i < n; i++)
+        int n,k;
+        cin >> n >>k;
+        set<ll> nums;
+        queue<ll> order;
+        for(size_t i = 0; i < n; i++)
         {
-            ll h;
-            cin >> h;
-            heights.pb(h);
+         	ll a;
+         	cin >> a;
+         	if(auto search = nums.find(a); search != nums.end())
+         		continue;
+         	else
+         	{
+         		nums.insert(a);
+         		order.push(a);
+         		if(order.size() > k)
+         		{
+         			nums.erase(order.front());
+         			order.pop();
+         		}
+         	}
         }
-        sort(all(heights));
-        v fill;
-        fill.pb(0);
-        ll temp = 0;
-        for(ll i = 1; i < n; i++)
+        cout << order.size() << nline;
+        v vec;
+        while(!order.empty())
         {
-            temp = (heights[i] - heights[i-1])*i;
-            fill.pb(fill.back() + temp);
+        	vec.pb(order.front());
+        	order.pop();
         }
-        bool found = false;
-        ll idx;
-        for(ll i = 0; i < n; i++)
+        reverse(all(vec));
+        for(size_t i = 0; i < vec.size(); i++)
         {
-            if(fill[i] > x)
-            {
-                idx = i-1;
-                found = true;
-                break;
-            }
+         	cout << vec[i] << " ";
         }
-        if(found)
-            cout << (x-fill[idx])/(idx+1) + heights[idx] << nline;
-        else
-            cout << (x-fill.back())/n + heights.back() << nline;
+        
     }
     return 0;
 }

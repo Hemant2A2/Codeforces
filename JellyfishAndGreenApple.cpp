@@ -22,9 +22,49 @@ using namespace std;
 #define all(x) (x).begin(),(x).end()
 typedef long long ll;
 typedef unsigned long long ull;
-typedef vector<ll> v;
+typedef vector<int> v;
 typedef unordered_set<int> us;
 typedef unordered_map<int,int> um;
+
+ll gcd(ll a , ll b)
+{
+    while(b)
+    {
+        a %= b;
+        swap(a,b);
+    }
+    return a;
+}
+
+bool check_pow(ll n)
+{
+	return !(n &(n-1));
+}
+
+ll exp(ll n)
+{
+	ll p = 0;
+	while(n>1)
+	{
+		n /= 2;
+		p++;
+	}
+	return p;
+}
+
+ll solve(ll n, ll k)
+{
+	ll i = 0, ans = 0;
+	while(i < k)
+	{
+		ll b = n&1;
+		if(b)
+			ans += (ll)pow(2,k) - (ll)pow(2,i);
+		i++;
+		n >>=1;
+	}
+	return ans;
+}
 
 int main()
 {
@@ -37,39 +77,22 @@ int main()
     cin >> test;
     while(test--)
     {
-        ll n,x;
-        cin >> n >> x;
-        v heights;
-        for(ll i = 0; i < n; i++)
-        {
-            ll h;
-            cin >> h;
-            heights.pb(h);
-        }
-        sort(all(heights));
-        v fill;
-        fill.pb(0);
-        ll temp = 0;
-        for(ll i = 1; i < n; i++)
-        {
-            temp = (heights[i] - heights[i-1])*i;
-            fill.pb(fill.back() + temp);
-        }
-        bool found = false;
-        ll idx;
-        for(ll i = 0; i < n; i++)
-        {
-            if(fill[i] > x)
-            {
-                idx = i-1;
-                found = true;
-                break;
-            }
-        }
-        if(found)
-            cout << (x-fill[idx])/(idx+1) + heights[idx] << nline;
+        ll n,m;
+        cin >> n >> m;
+        ll g = gcd(n,m);
+        n /= g;
+        m /= g;
+        n %= m;
+        if( m == 1)
+        	cout << 0 << nline;
+        else if(!check_pow(m))
+        	cout << -1 << nline;
         else
-            cout << (x-fill.back())/n + heights.back() << nline;
+        {
+        	ll k = exp(m);
+        	cout << solve(n,k)*g<< nline;
+        }
+
     }
     return 0;
 }

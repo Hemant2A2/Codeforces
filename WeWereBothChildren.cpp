@@ -1,30 +1,41 @@
 #include <iostream>
 #include <algorithm>
+#include <cstring>
 #include <math.h>
 #include <vector>
 #include <utility>
 #include <stdio.h>
 #include <string>
 #include <tuple>
+#include <map>
 #include <unordered_map>
+#include <set>
+#include <unordered_set>
+#include <stack>
+#include <queue>
+#include <deque>
 using namespace std;
 #define pb push_back
 #define ff first
 #define ss second
+#define nline "\n"
 #define all(x) (x).begin(),(x).end()
 typedef long long ll;
 typedef unsigned long long ull;
 typedef vector<ll> v;
-typedef unordered_map<ll,ll> um;
+typedef unordered_set<int> us;
+typedef unordered_map<int,int> um;
 
 int main()
 {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
-    int t;
-    cin >> t;
-    while(t--)
+#ifndef ONLINE_JUDGE
+    freopen("input_cf.txt", "r" , stdin);
+    freopen("output_cf.txt", "w" , stdout);
+#endif
+    ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+    int test = 1;
+    cin >> test;
+    while(test--)
     {
         int n;
         cin >> n;
@@ -35,7 +46,7 @@ int main()
             cin >> a;
             hops.pb(a);
         }
-        um frogs;
+        map<ll,ll>frogs;
         for(size_t i = 0; i < n; i++)
         {
             ll b = hops[i];
@@ -48,7 +59,7 @@ int main()
                 }
                 else
                 {
-                    frogs.insert({b,1});
+                    frogs.insert(make_pair(b,1));
                     b += hops[i];
                 }
             }
@@ -63,10 +74,10 @@ int main()
                     max = it->ss;
             }
 
-            cout << max << "\n";
+            cout << max << nline;
         }
         else
-            cout << 0 << "\n";
+            cout << 0 << nline;
     }
     return 0;
 }

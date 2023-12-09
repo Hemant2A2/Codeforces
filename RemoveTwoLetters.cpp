@@ -23,13 +23,8 @@ using namespace std;
 typedef long long ll;
 typedef unsigned long long ull;
 typedef vector<int> v;
-typedef unordered_set<int> us;
+typedef unordered_set<string> us;
 typedef unordered_map<int,int> um;
-ll n,c,sum,sum_sq;
-ll f(ll m)
-{
-    return 4*n*m*m + 4*sum*m + sum_sq - c;
-}
 
 int main()
 {
@@ -42,28 +37,31 @@ int main()
     cin >> test;
     while(test--)
     {
-        cin >> n >> c;
-        sum = sum_sq = 0;
-        for(ll i = 0; i < n; i++)
+        int n;
+        cin >> n;
+        string s;
+        cin >> s;
+        int ext = 0;
+        char curr = s[0];
+        int streak = 1;
+        for(size_t i = 1; i < n; i++)
         {
-            ll a;
-            cin >> a;
-            sum += a;
-            sum_sq += a*a;
+         	if(s[i] == curr)
+         		streak++;
+         	else
+         	{
+         		if(streak > 2)
+         			ext += streak - 2;
+     			streak = 1;
+     			curr = s[i];
+         	}
         }
-        ll root = sqrt(n);
-        ll l = 1,h = 1e9/root,m;
-        while(l <= h)
-        {
-            m = (l+h)/2;
-            if(f(m) == 0)
-                break;
-            else if(f(m) > 0)
-                h = m-1;
-            else
-                l = m+1;
-        }
-        cout << m << nline;
+        if(streak > 2)
+         	ext += streak - 2;
+
+        cout << n-1 - ext << nline;
+        
+
     }
     return 0;
 }

@@ -21,49 +21,50 @@ using namespace std;
 #define nline "\n"
 #define all(x) (x).begin(),(x).end()
 typedef long long ll;
+typedef long double ld;
 typedef unsigned long long ull;
-typedef vector<int> v;
+typedef vector<ll> v;
+typedef vector<ld> vd;
 typedef unordered_set<int> us;
 typedef unordered_map<int,int> um;
-ll n,c,sum,sum_sq;
-ll f(ll m)
-{
-    return 4*n*m*m + 4*sum*m + sum_sq - c;
-}
 
 int main()
 {
 #ifndef ONLINE_JUDGE
-    freopen("input_cf.txt", "r" , stdin);
-    freopen("output_cf.txt", "w" , stdout);
+    freopen("input.txt", "r" , stdin);
+    freopen("output.txt", "w" , stdout);
 #endif
     ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
     int test = 1;
-    cin >> test;
+    //cin >> test;
     while(test--)
     {
-        cin >> n >> c;
-        sum = sum_sq = 0;
-        for(ll i = 0; i < n; i++)
+        cout << fixed;
+        int n;
+        cin >> n;
+        ll l;
+        cin >> l;
+        v light;
+        for(size_t i = 0; i < n; i++)
         {
-            ll a;
-            cin >> a;
-            sum += a;
-            sum_sq += a*a;
+         	ll a;
+         	cin >> a;
+         	light.pb(a);
         }
-        ll root = sqrt(n);
-        ll l = 1,h = 1e9/root,m;
-        while(l <= h)
+        sort(all(light));
+        vd rad;
+        if(light[0] != 0)
+        	rad.pb((ld)light[0]);
+        if(light.back() != l)
+        	rad.pb((ld)light.back());
+        for(size_t i = 1; i < n; i++)
         {
-            m = (l+h)/2;
-            if(f(m) == 0)
-                break;
-            else if(f(m) > 0)
-                h = m-1;
-            else
-                l = m+1;
+         	ld diff = (ld)(light[i] - light[i-1])/2;
+         	rad.pb(diff);
         }
-        cout << m << nline;
+        sort(all(rad));
+        cout << rad.back() ;
+
     }
     return 0;
 }

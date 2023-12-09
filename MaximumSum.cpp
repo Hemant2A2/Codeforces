@@ -22,48 +22,51 @@ using namespace std;
 #define all(x) (x).begin(),(x).end()
 typedef long long ll;
 typedef unsigned long long ull;
-typedef vector<int> v;
+typedef vector<ll> v;
 typedef unordered_set<int> us;
 typedef unordered_map<int,int> um;
-ll n,c,sum,sum_sq;
-ll f(ll m)
-{
-    return 4*n*m*m + 4*sum*m + sum_sq - c;
-}
 
 int main()
 {
 #ifndef ONLINE_JUDGE
-    freopen("input_cf.txt", "r" , stdin);
-    freopen("output_cf.txt", "w" , stdout);
+    freopen("input.txt", "r" , stdin);
+    freopen("output.txt", "w" , stdout);
 #endif
     ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
     int test = 1;
     cin >> test;
     while(test--)
     {
-        cin >> n >> c;
-        sum = sum_sq = 0;
-        for(ll i = 0; i < n; i++)
+        int n,k;
+        cin >> n >> k;
+        v nums;
+        ll sum = 0;
+        for(size_t i = 0; i < n; i++)
         {
-            ll a;
-            cin >> a;
-            sum += a;
-            sum_sq += a*a;
+         	ll a;
+         	cin >> a;
+         	nums.pb(a);
         }
-        ll root = sqrt(n);
-        ll l = 1,h = 1e9/root,m;
-        while(l <= h)
+        sort(all(nums));
+        v pre_sum;
+        for(size_t i = 0; i < n; i++)
         {
-            m = (l+h)/2;
-            if(f(m) == 0)
-                break;
-            else if(f(m) > 0)
-                h = m-1;
-            else
-                l = m+1;
+         	sum += nums[i];
+         	pre_sum.pb(sum);
         }
-        cout << m << nline;
+        int m = 0;
+        ll max = 0;
+        while(m <=k)
+        {
+        	if(m == 0)
+        		max = pre_sum[n-k+m -1];
+        	else
+        		max = max > (pre_sum[n-k+m-1] - pre_sum[2*m - 1]) ? max : (pre_sum[n-k+m-1] - pre_sum[2*m - 1]);
+        	m++;
+        }
+
+        cout << max << nline;
+        
     }
     return 0;
 }

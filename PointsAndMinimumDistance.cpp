@@ -22,7 +22,7 @@ using namespace std;
 #define all(x) (x).begin(),(x).end()
 typedef long long ll;
 typedef unsigned long long ull;
-typedef vector<ll> v;
+typedef vector<int> v;
 typedef unordered_set<int> us;
 typedef unordered_map<int,int> um;
 
@@ -37,39 +37,35 @@ int main()
     cin >> test;
     while(test--)
     {
-        ll n,x;
-        cin >> n >> x;
-        v heights;
-        for(ll i = 0; i < n; i++)
+        int n;
+        cin >> n;
+        v points;
+        for(size_t i = 0; i < n*2; i++)
         {
-            ll h;
-            cin >> h;
-            heights.pb(h);
+         	ll a;
+         	cin >> a;
+         	points.pb(a);
         }
-        sort(all(heights));
-        v fill;
-        fill.pb(0);
-        ll temp = 0;
-        for(ll i = 1; i < n; i++)
+        sort(all(points));
+        v left,right;
+        int sum = 0;
+        left.pb(points[0]);
+        for(size_t i = 1; i < n; i++)
         {
-            temp = (heights[i] - heights[i-1])*i;
-            fill.pb(fill.back() + temp);
+         	sum += abs(points[i] - points[i-1]);
+         	left.pb(points[i]);
         }
-        bool found = false;
-        ll idx;
-        for(ll i = 0; i < n; i++)
+        right.pb(points[n]);
+        for(size_t i = n+1; i < n*2; i++)
         {
-            if(fill[i] > x)
-            {
-                idx = i-1;
-                found = true;
-                break;
-            }
+         	sum += abs(points[i] - points[i-1]);
+         	right.pb(points[i]);
         }
-        if(found)
-            cout << (x-fill[idx])/(idx+1) + heights[idx] << nline;
-        else
-            cout << (x-fill.back())/n + heights.back() << nline;
+        cout << sum << nline;
+        for(size_t i = 0; i < n; i++)
+        {
+         	cout << left[i] << " " << right[i] << nline;
+        }
     }
     return 0;
 }

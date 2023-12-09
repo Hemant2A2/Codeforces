@@ -19,10 +19,10 @@ using namespace std;
 #define ff first
 #define ss second
 #define nline "\n"
-#define all(x) (x).begin(),(x).end()
+#define all(x) (x).rbegin(),(x).rend()
 typedef long long ll;
 typedef unsigned long long ull;
-typedef vector<ll> v;
+typedef vector<int> v;
 typedef unordered_set<int> us;
 typedef unordered_map<int,int> um;
 
@@ -37,39 +37,31 @@ int main()
     cin >> test;
     while(test--)
     {
-        ll n,x;
-        cin >> n >> x;
-        v heights;
-        for(ll i = 0; i < n; i++)
+        int n,k;
+        cin >> n >> k;
+        v nums;
+        v diff;
+        int sum = 0;
+        for(size_t i = 0; i < n; i++)
         {
-            ll h;
-            cin >> h;
-            heights.pb(h);
+         	int a;
+         	cin >> a;
+         	nums.pb(a);
         }
-        sort(all(heights));
-        v fill;
-        fill.pb(0);
-        ll temp = 0;
-        for(ll i = 1; i < n; i++)
+        for(size_t i = 0; i < n-1; i++)
         {
-            temp = (heights[i] - heights[i-1])*i;
-            fill.pb(fill.back() + temp);
+         	int d = abs(nums[i+1] - nums[i]);
+         	sum += d;
+         	diff.pb(d);
         }
-        bool found = false;
-        ll idx;
-        for(ll i = 0; i < n; i++)
+        sort(all(diff));
+        int rem = 0;
+        for(size_t i = 0; i < k; i++)
         {
-            if(fill[i] > x)
-            {
-                idx = i-1;
-                found = true;
-                break;
-            }
+         	rem += diff[i];
         }
-        if(found)
-            cout << (x-fill[idx])/(idx+1) + heights[idx] << nline;
-        else
-            cout << (x-fill.back())/n + heights.back() << nline;
+        cout << sum - rem << nline;
+
     }
     return 0;
 }

@@ -19,7 +19,7 @@ using namespace std;
 #define ff first
 #define ss second
 #define nline "\n"
-#define all(x) (x).begin(),(x).end()
+#define all(x) (x).rbegin(),(x).rend()
 typedef long long ll;
 typedef unsigned long long ull;
 typedef vector<ll> v;
@@ -34,42 +34,31 @@ int main()
 #endif
     ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
     int test = 1;
-    cin >> test;
+    //cin >> test;
     while(test--)
     {
-        ll n,x;
-        cin >> n >> x;
-        v heights;
-        for(ll i = 0; i < n; i++)
+        int n;
+        ll d;
+        cin >> n >> d;
+        v power;
+        for(size_t i = 0; i < n; i++)
         {
-            ll h;
-            cin >> h;
-            heights.pb(h);
+         	ll a;
+         	cin >> a;
+         	power.pb(a);
         }
-        sort(all(heights));
-        v fill;
-        fill.pb(0);
-        ll temp = 0;
-        for(ll i = 1; i < n; i++)
+        sort(all(power));
+        ll cnt = 0;
+        for(size_t i = 0; i < n; i++)
         {
-            temp = (heights[i] - heights[i-1])*i;
-            fill.pb(fill.back() + temp);
+         	ll mul = d/power[i];
+         	if(n-i > mul)
+         	{
+         		cnt++;
+         		n = n-mul;
+         	}
         }
-        bool found = false;
-        ll idx;
-        for(ll i = 0; i < n; i++)
-        {
-            if(fill[i] > x)
-            {
-                idx = i-1;
-                found = true;
-                break;
-            }
-        }
-        if(found)
-            cout << (x-fill[idx])/(idx+1) + heights[idx] << nline;
-        else
-            cout << (x-fill.back())/n + heights.back() << nline;
+        cout << cnt;
     }
     return 0;
 }

@@ -25,11 +25,6 @@ typedef unsigned long long ull;
 typedef vector<int> v;
 typedef unordered_set<int> us;
 typedef unordered_map<int,int> um;
-ll n,c,sum,sum_sq;
-ll f(ll m)
-{
-    return 4*n*m*m + 4*sum*m + sum_sq - c;
-}
 
 int main()
 {
@@ -39,31 +34,46 @@ int main()
 #endif
     ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
     int test = 1;
-    cin >> test;
+    //cin >> test;
     while(test--)
     {
-        cin >> n >> c;
-        sum = sum_sq = 0;
-        for(ll i = 0; i < n; i++)
+        int n;
+        cin >> n;
+        if( n == 1 || n == 2)
+        	cout << "No";
+        else
         {
-            ll a;
-            cin >> a;
-            sum += a;
-            sum_sq += a*a;
+        	cout << "Yes" << nline;
+        	if(n%2)
+        	{
+        		int p = n/2;
+        		cout << n/2 + 1 << " ";
+        		for(size_t i = 1; i <= n/2 +1; i++)
+        		{
+        		 	cout << i << " ";
+        		}
+        		cout << nline;
+        		cout << n/2 << " ";
+        		for(size_t i = n/2 + 2; i <= n; i++)
+        		{
+        		 	cout << i << " ";
+        		}
+        	}
+        	else
+        	{
+        		cout << n/2 << " ";
+        		for(size_t i = 1; i <= n/2; i++)
+        		{
+        		 	cout << 2*i - 1 << " ";
+        		}
+        		cout << nline;
+        		cout << n/2 << " ";
+        		for(size_t i = 1; i <= n/2; i++)
+        		{
+        		 	cout << 2*i  << " ";
+        		}
+        	}
         }
-        ll root = sqrt(n);
-        ll l = 1,h = 1e9/root,m;
-        while(l <= h)
-        {
-            m = (l+h)/2;
-            if(f(m) == 0)
-                break;
-            else if(f(m) > 0)
-                h = m-1;
-            else
-                l = m+1;
-        }
-        cout << m << nline;
     }
     return 0;
 }

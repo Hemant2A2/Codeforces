@@ -22,9 +22,16 @@ using namespace std;
 #define all(x) (x).begin(),(x).end()
 typedef long long ll;
 typedef unsigned long long ull;
-typedef vector<ll> v;
+typedef vector<pair<ll,ll> > vp;
 typedef unordered_set<int> us;
 typedef unordered_map<int,int> um;
+
+bool sortbyss(const pair<ll,ll> &a,const pair<ll,ll> &b)
+{
+	if(a.ff == b.ff)
+		return a.ss > b.ss;
+	return a.ff < b.ff;
+}
 
 int main()
 {
@@ -37,39 +44,45 @@ int main()
     cin >> test;
     while(test--)
     {
-        ll n,x;
-        cin >> n >> x;
-        v heights;
+        ll n;
+        cin >> n;
+        vp turn;
+        pair<ll,ll> p;
         for(ll i = 0; i < n; i++)
         {
-            ll h;
-            cin >> h;
-            heights.pb(h);
+         	ll a,b;
+         	cin >> a >> b;
+         	p.ff = a;
+         	p.ss = b;
+         	turn.pb(p);
         }
-        sort(all(heights));
-        v fill;
-        fill.pb(0);
-        ll temp = 0;
+        sort(all(turn),sortbyss);
+        // for(ll i = 0; i < n; i++)
+        // {
+        //  	cout << turn[i].ff << " " << turn[i].ss <<nline;
+        // }
+        ll curr = turn[0].ff;
+        ll streak = curr - 1;
+        ll score = turn[0].ss;
         for(ll i = 1; i < n; i++)
         {
-            temp = (heights[i] - heights[i-1])*i;
-            fill.pb(fill.back() + temp);
+         	if(turn[i].ff == curr)
+         	{
+         		if(streak)
+         		{
+         			streak--;
+         			score += turn[i].ss;
+         		}
+         	}
+         	else
+         	{
+         		curr = turn[i].ff;
+         		streak = curr - 1;
+         		score += turn[i].ss;
+         	}
         }
-        bool found = false;
-        ll idx;
-        for(ll i = 0; i < n; i++)
-        {
-            if(fill[i] > x)
-            {
-                idx = i-1;
-                found = true;
-                break;
-            }
-        }
-        if(found)
-            cout << (x-fill[idx])/(idx+1) + heights[idx] << nline;
-        else
-            cout << (x-fill.back())/n + heights.back() << nline;
+        cout << score << nline;
+
     }
     return 0;
 }

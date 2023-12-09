@@ -25,6 +25,13 @@ typedef unsigned long long ull;
 typedef vector<ll> v;
 typedef unordered_set<int> us;
 typedef unordered_map<int,int> um;
+ll h;
+ll sum;
+
+bool f(ll k)
+{
+	return sum + k - h >= 0;
+}
 
 int main()
 {
@@ -37,39 +44,37 @@ int main()
     cin >> test;
     while(test--)
     {
-        ll n,x;
-        cin >> n >> x;
-        v heights;
-        for(ll i = 0; i < n; i++)
+        int n;
+        
+        cin >> n >> h;
+        v time;
+        for(size_t i = 0; i < n; i++)
         {
-            ll h;
-            cin >> h;
-            heights.pb(h);
+         	ll num;
+         	cin >> num;
+         	time.pb(num);
         }
-        sort(all(heights));
-        v fill;
-        fill.pb(0);
-        ll temp = 0;
-        for(ll i = 1; i < n; i++)
+        v diff;
+        for(size_t i = 1; i < n; i++)
         {
-            temp = (heights[i] - heights[i-1])*i;
-            fill.pb(fill.back() + temp);
+         	diff.pb(time[i]- time[i-1]);
         }
-        bool found = false;
-        ll idx;
-        for(ll i = 0; i < n; i++)
+        ll l = -1,h = 1e18;
+        while(l+1<h)
         {
-            if(fill[i] > x)
-            {
-                idx = i-1;
-                found = true;
-                break;
-            }
+        	ll k = (l+h)/2;
+        	sum = 0;
+        	for(size_t i = 0; i < diff.size(); i++)
+        	{
+        	 	sum += k < diff[i] ? k : diff[i];
+        	}
+        	if(f(k))
+        		h = k;
+        	else
+        		l = k;
         }
-        if(found)
-            cout << (x-fill[idx])/(idx+1) + heights[idx] << nline;
-        else
-            cout << (x-fill.back())/n + heights.back() << nline;
+        cout << h << nline;
+
     }
     return 0;
 }
